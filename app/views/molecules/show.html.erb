@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @molecule.name %>
+</p>
+
+<p>
+  <b>Molecular weight:</b>
+  <%= @molecule.molecular_weight %>
+</p>
+
+
+<%= link_to 'Edit', edit_molecule_path(@molecule) %> |
+<%= link_to 'Back', molecules_path %>

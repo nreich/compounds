@@ -1,4 +1,7 @@
 Compounds::Application.routes.draw do
+  resources :molecules
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
