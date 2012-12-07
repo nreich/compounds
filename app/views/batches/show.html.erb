@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Number:</b>
+  <%= @batch.number %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @batch.date %>
+</p>
+
+<p>
+  <b>Amount:</b>
+  <%= @batch.amount %>
+</p>
+
+<p>
+  <b>Barcode:</b>
+  <%= @batch.barcode %>
+</p>
+
+<p>
+  <b>Initial amount:</b>
+  <%= @batch.initial_amount %>
+</p>
+
+<p>
+  <b>Salt:</b>
+  <%= @batch.salt %>
+</p>
+
+<p>
+  <b>Formula weight:</b>
+  <%= @batch.formula_weight %>
+</p>
+
+<p>
+  <b>Molecule:</b>
+  <%= @batch.molecule_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_batch_path(@batch) %> |
+<%= link_to 'Back', batches_path %>
