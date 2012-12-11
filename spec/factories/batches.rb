@@ -9,6 +9,6 @@ FactoryGirl.define do
     initial_amount 1.5
     salt 1
     formula_weight "9.998"
-    molecule_id 1
+    association :molecule
   end
 end
