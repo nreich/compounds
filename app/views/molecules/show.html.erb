@@ -10,6 +10,16 @@
   <%= @molecule.molecular_weight %>
 </p>
 
+<table>
+    <thead>
+        <td>Lot Number</td>
+        <td>amount</td>
+    </thead>
+    <% @molecule.batches.each do |batch| %>
+        <tr><%= batch.lot_number %></tr>
+        <tr><%= batch.amount %></tr>
+    <% end %>
+</table>
 
 <%= link_to 'Edit', edit_molecule_path(@molecule) %> |
 <%= link_to 'Back', molecules_path %>
