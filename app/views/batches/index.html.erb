@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th>Number</th>
+    <th>Lot Number</th>
     <th>Date</th>
     <th>Amount</th>
     <th>Barcode</th>
@@ -17,7 +17,7 @@
 
 <% @batches.each do |batch| %>
   <tr>
-    <td><%= batch.number %></td>
+    <td><%= batch.lot_number %></td>
     <td><%= batch.date %></td>
     <td><%= batch.amount %></td>
     <td><%= batch.barcode %></td>
