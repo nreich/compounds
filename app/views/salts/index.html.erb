@@ -1,0 +1,23 @@
+<h1>Listing salts</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @salts.each do |salt| %>
+  <tr>
+    <td><%= salt.name %></td>
+    <td><%= link_to 'Show', salt %></td>
+    <td><%= link_to 'Edit', edit_salt_path(salt) %></td>
+    <td><%= link_to 'Destroy', salt, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Salt', new_salt_path %>

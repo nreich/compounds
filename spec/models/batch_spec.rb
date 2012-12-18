@@ -8,7 +8,7 @@ describe Batch do
                   amount: 10.2,
                   barcode: "barcode_text",
                   initial_amount: 25.1,
-                  salt: 1,
+                  salt_id: 1,
                   formula_weight: "256.123",
                   molecule_id: 1
                 }
@@ -39,6 +39,21 @@ describe Batch do
         it "should belong to the right molecule" do
             @batch = @molecule.batches.new(@attr)
             @batch.molecule.should == @molecule
+        end
+
+    end
+
+    describe "salt relationship" do
+
+        it "should have a relationship with a salt" do
+            @batch = @molecule.batches.new(@attr)
+            @batch.should respond_to :salt
+        end
+
+        it "should have the right salt" do
+            @salt = Salt.create({ name: "trifluoroacetate"})
+            @batch = @molecule.batches.new(@attr.merge(salt_id: @salt.id))
+            @batch.salt.name.should == @salt.name
         end
 
     end

@@ -1,4 +1,7 @@
 Compounds::Application.routes.draw do
+  resources :salts
+
+
   resources :batches
 
 
