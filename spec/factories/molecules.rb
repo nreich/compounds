@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :molecule do
-    name "molecule_name"
+    sequence(:name) { |n| "molecule #{n}" }
     molecular_weight 125.123
     #association :batch
   end

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :batch do
-    lot_number 1
+    sequence(:lot_number) { |n| n }
     date "2012-12-04"
     amount 1.5
     barcode "barcode"

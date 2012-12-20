@@ -4,26 +4,34 @@ def create_molecule(name)
 end
 
 ### Given ###
-Given /^I have molecules named (.+)$/ do |names|
-    names.split(', ').each do |name|
-        FactoryGirl.create(:molecule, name: name)
+Given /^I have (\d+) molecules$/ do |number|
+    @molecules = []
+    number.to_i.times do
+        molecule = FactoryGirl.create(:molecule)
+        @molecules << molecule
     end
 end
 
-Given /^I have a molecule named (.+)$/ do |name|
-    create_molecule(name)
+Given /^I have a molecule$/ do
+    @molecule = FactoryGirl.create(:molecule)
 end
 
-Given /^My molecule has batches (.+)$/ do |batches|
-    batches.split(', ').each do |batch|
-        FactoryGirl.create(:batch, lot_number: batch, molecule: @molecule)
+Given /^My molecule has (\d+) batches$/ do |number|
+    number.to_i.times do
+        batch = FactoryGirl.create(:batch, molecule: @molecule)
+        @molecule.batches << batch
     end
+end
+
+Given /^My molecule has 1 batch$/ do
+    FactoryGirl.create(:batch, molecule: @molecule)
 end
 
 ### When ###
-When /^I go to the list of molecules$/ do
+When /^I visit the molecule list$/ do
     visit molecules_path
 end
+
 
 When /^I visit my molecule's page$/ do
     visit url_for(@molecule)
@@ -31,8 +39,20 @@ end
 
 
 ### Then ###
-Then /^I should see "(.+)"$/ do |name|
-    page.should have_content name
+Then /^I should see the names of all the molecules$/ do
+    @molecules.each do |molecule|
+        page.should have_content molecule.name
+    end
+end
+
+Then /^I should see the lot_numbers of all the batches$/ do
+    @molecule.batches.each do |batch|
+        page.should have_content batch.lot_number
+    end
+end
+
+Then /^I should see the molecule name$/ do
+    page.should have_content @molecule.name
 end
 
 

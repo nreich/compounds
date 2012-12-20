@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Molecule</th>
     <th>Lot Number</th>
     <th>Date</th>
     <th>Amount</th>
@@ -17,6 +18,7 @@
 
 <% @batches.each do |batch| %>
   <tr>
+    <td><%= batch.molecule.name %></td>
     <td><%= batch.lot_number %></td>
     <td><%= batch.date %></td>
     <td><%= batch.amount %></td>

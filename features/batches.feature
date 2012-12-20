@@ -4,14 +4,14 @@ Feature: View Batches
     I want to view the batch show page and index page
 
 Scenario: Batch Page
-    Given I have a molecule named First
-        And My molecule has batches 100
+    Given I have a molecule
+        And My molecule has 1 batch
     When I visit the show page for the batch
-    Then I should see "100"
+    Then I should see its' lot number
 
 Scenario: Batch Index
-    Given I have a molecule named First
-        And My molecule has batches 100, 200
+    Given I have a molecule
+        And My molecule has 2 batches
     When I visit the batch index page
-    Then I should see "100"
-        And I should see "200"
+    Then I should see the molecule name
+        And I should see the lot numbers

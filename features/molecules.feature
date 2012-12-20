@@ -4,17 +4,13 @@ Feature: View Molecules
     I want to view the molecules index
 
 Scenario: Molecules List
-    Given I have molecules named First, Second
-    When I go to the list of molecules
-    Then I should see "First"
-    And I should see "Second"
+    Given I have 5 molecules
+    When I visit the molecule list
+    Then I should see the names of all the molecules
 
 Scenario: Molecule Page
-    Given I have a molecule named First
-        And My molecule has batches 100, 200
-    When I visit my molecule's page
-    Then I should see "First"
-        And I should see "100"
-        And I should see "200"
-
+    Given I have a molecule
+        And My molecule has 3 batches
+   When I visit my molecule's page
+   Then I should see the lot_numbers of all the batches
 
