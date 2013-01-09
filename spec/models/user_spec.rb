@@ -4,6 +4,7 @@ describe User do
     before :each do
         @attr = {
             email: "user@example.com",
+            name: "Johnn Doe",
             password: "password",
             password_confirmation: "password"
         }
@@ -16,6 +17,17 @@ describe User do
     it "should require an email address" do
         no_email_user = User.new(@attr.merge(email: ""))
         no_email_user.should_not be_valid
+    end
+
+    it "should require a name" do
+      no_name_user = User.new(@attr.merge(name: ""))
+      no_name_user.should_not be_valid
+    end
+
+    it "should not allow long names" do
+      long = "a" * 51
+      long_name_user = User.new(@attr.merge(name: long))
+      long_name_user.should_not be_valid
     end
 
     it "should except a valid email addresses" do
