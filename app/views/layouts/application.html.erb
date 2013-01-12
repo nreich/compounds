@@ -7,8 +7,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= controller.controller_name %>">
-
-<%= yield %>
+  <%= render 'layouts/messages' %>
+  
+  <%= yield %>
 
 </body>
 </html>

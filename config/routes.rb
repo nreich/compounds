@@ -1,14 +1,16 @@
 Compounds::Application.routes.draw do
+  get "users/index"
+
+  get "users/show"
+
   devise_for :users
 
   resources :salts
-
-
   resources :batches
-
-
   resources :molecules
+  resources :users
 
+  root to: "users#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -19,8 +19,8 @@ def sign_up
   visit '/users/sign_up'
   fill_in "Name", with: @visitor[:name]
   fill_in "Email", with: @visitor[:email]
-  fill_in "Password", with: @visitor[:password]
-  fill_in "Password confirmation", with: @visitor[:password_confirmation]
+  fill_in "user_password", with: @visitor[:password]
+  fill_in "user_password_confirmation", with: @visitor[:password_confirmation]
   click_button "Sign up"
   find_user
 end
@@ -75,7 +75,7 @@ end
 
 ### Then ###
 Then /^I should see a successful sign up message$/ do
-  page.should have_content "Welcome! You have successfully signed up."
+  page.should have_content "Welcome! You have signed up successfully."
 end
 
 Then /^I should see an invalid email message$/ do
@@ -83,21 +83,21 @@ Then /^I should see an invalid email message$/ do
 end
 
 Then /^I should see a missing name message$/ do
-  page.should have_content "You must enter a name"
+  page.should have_content "Name can't be blank"
 end
 
 Then /^I should see a too long name message$/ do
-  page.should have_content "Names must be 50 characters or less"
+  page.should have_content "Name 50 characters is the maximum allowed"
 end
 
 Then /^I should see a missing password message$/ do
-  page.should have_content "You must enter a password"
+  page.should have_content "Password can't be blank"
 end
 
 Then /^I should see a missing password confirmation message$/ do
-  page.should have_content "You must enter a password confirmation"
+  page.should have_content "Password doesn't match confirmation"
 end
 
 Then /^I should see a mismatched password message$/ do
-  page.should have_content "Password and password confirmation must match"
+  page.should have_content "Password doesn't match confirmation"
 end
