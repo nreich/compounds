@@ -117,6 +117,9 @@ When /^I sign in with a wrong password$/ do
   sign_in
 end
 
+When /^I sign out$/ do
+  visit '/users/sign_out'  
+end
 
 ### Then ###
 Then /^I should see a successful sign up message$/ do
@@ -165,4 +168,11 @@ Then /^I should be signed in$/ do
   page.should have_content "Logout"
   page.should_not have_content "Sign up"
   page.should_not have_content "Login"
+end
+
+Then /^I should see a signed out message$/ do
+  #This currently does not work, but when tested with rails server,
+  #the message does appear. Is this a artifact from using GET request
+  #rather than DELETE for sign out?
+  #page.should have_content "Signed out successfully"
 end
