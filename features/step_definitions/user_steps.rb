@@ -44,6 +44,12 @@ Given /^I am not logged in$/ do
   visit '/users/sign_out'
 end
 
+Given /^I am logged in$/ do
+  create_visitor
+  create_user
+  sign_in
+end
+
 Given /^I do not exist as a user$/ do
   create_visitor
   delete_user
@@ -121,6 +127,13 @@ When /^I sign out$/ do
   visit '/users/sign_out'  
 end
 
+When /^I edit my account details$/ do
+  click_link "Edit account"
+  fill_in "Name", with: "newname"
+  fill_in "user_current_password", with: @visitor[:password]
+  click_button "Update"
+end
+
 ### Then ###
 Then /^I should see a successful sign up message$/ do
   page.should have_content "Welcome! You have signed up successfully."
@@ -175,4 +188,8 @@ Then /^I should see a signed out message$/ do
   #the message does appear. Is this a artifact from using GET request
   #rather than DELETE for sign out?
   #page.should have_content "Signed out successfully"
+end
+
+Then /^I should see an account edited message$/ do
+  page.should have_content "You updated your account successfully"
 end
