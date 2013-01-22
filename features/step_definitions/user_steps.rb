@@ -59,6 +59,18 @@ Given /^I exist as a user$/ do
   create_user
 end
 
+Given /^a user exists$/ do
+  @user = FactoryGirl.create(:user)
+end
+
+Given /^there are (\d+) users$/ do |n|
+  @users = []
+  number_users = Integer(n)
+  number_users.times do
+    @users << FactoryGirl.create(:user)
+  end
+end
+
 ### When ###
 When /^I sign up with valid user data$/ do
   create_visitor
@@ -134,6 +146,14 @@ When /^I edit my account details$/ do
   click_button "Update"
 end
 
+When /^I visit their show page$/ do
+  visit "/users/#{@user.id}"
+end
+
+When /^I visit the user index page$/ do
+  visit '/users/index/'
+end
+
 ### Then ###
 Then /^I should see a successful sign up message$/ do
   page.should have_content "Welcome! You have signed up successfully."
@@ -192,4 +212,18 @@ end
 
 Then /^I should see an account edited message$/ do
   page.should have_content "You updated your account successfully"
+end
+
+Then /^I should see their name$/ do
+  page.should have_content @user.name
+end
+
+Then /^I should see their email address$/ do
+  page.should have_content @user.email
+end
+
+Then /^I should see the name of each user$/ do
+  @users.each do |user|
+    page.should have_content user.name
+  end
 end
