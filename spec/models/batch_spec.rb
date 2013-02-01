@@ -43,7 +43,7 @@ describe Batch do
 
     end
 
-    describe "salt relationship" do
+    describe "assosciations" do
 
         it "should have a relationship with a salt" do
             @batch = @molecule.batches.new(@attr)
@@ -55,6 +55,18 @@ describe Batch do
             @batch = @molecule.batches.new(@attr.merge(salt_id: @salt.id))
             @batch.salt.name.should == @salt.name
         end
+
+        it "should have a relationship with transactions" do
+          @batch = @molecule.batches.new(@attr)
+          @batch.should respond_to :transactions
+        end
+
+        it "should have the right transaction" do
+          @batch = @molecule.batches.new(@attr) 
+          @transaction = @batch.transactions.new(amount: 1)
+          @batch.transactions.first.should equal(@transaction)
+        end
+      
 
     end
 end
