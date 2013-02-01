@@ -47,6 +47,14 @@ describe Transaction do
       @transaction.batch.should == @batch
     end
 
+    it "should remove the right amount from a batch when saved" do
+      amount_before = @batch.amount
+      @transaction.save!
+      @batch.reload
+      amount_after = @batch.amount
+      @transaction.amount.should == amount_before - amount_after
+    end
+
   end
 
 end
