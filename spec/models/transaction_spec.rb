@@ -5,7 +5,7 @@ describe Transaction do
   before :each do
     @user = FactoryGirl.create(:user)
     @batch = FactoryGirl.create(:batch, amount: 1000)
-    @attr = { amount: 10 }
+    @attr = { amount: 10, user_id: @user.id }
   end
 
   it "should create a new instance given valid attributes" do
@@ -39,20 +39,35 @@ describe Transaction do
       @transaction = @batch.transactions.new(@attr)
     end
 
-    it "should have a relationship with a batch" do
-      @transaction.should respond_to :batch
+    describe "with batch" do
+
+      it "should have a relationship with a batch" do
+        @transaction.should respond_to :batch
+      end
+
+     it "should belong to the right batch" do
+        @transaction.batch.should == @batch
+      end
+
+      it "should remove the right amount from a batch when saved" do
+        amount_before = @batch.amount
+        @transaction.save!
+        @batch.reload
+        amount_after = @batch.amount
+        @transaction.amount.should == amount_before - amount_after
+      end
     end
 
-    it "should belong to the right batch" do
-      @transaction.batch.should == @batch
-    end
+    describe "with user" do
 
-    it "should remove the right amount from a batch when saved" do
-      amount_before = @batch.amount
-      @transaction.save!
-      @batch.reload
-      amount_after = @batch.amount
-      @transaction.amount.should == amount_before - amount_after
+      it "should have a relationship with a user" do
+        @transaction.should respond_to :user
+      end
+
+      it "should have the right user" do
+        @transaction.user.should == @user
+      end
+
     end
 
   end

@@ -100,4 +100,28 @@ describe User do
         end
     end
 
+    describe "assosciations" do
+
+      describe "with transactions" do
+
+        before :each do
+          @user = User.create(@attr)
+          @batch = FactoryGirl.create(:batch)
+        end
+
+        it "should have a relationship with transactions" do
+          @user.should respond_to :transactions
+        end
+
+        it "should have the right transactions" do
+          @transaction = FactoryGirl.create(:transaction,
+                                              user_id: @user.id,
+                                              batch_id: @batch.id)
+          @user.transactions.first.should == @transaction
+        end
+      
+      end
+
+    end
+
 end

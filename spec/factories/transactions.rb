@@ -4,6 +4,6 @@ FactoryGirl.define do
   factory :transaction do
     user_id 1
     batch_id 1
-    amount "9.9"
+    amount "1.9"
   end
 end

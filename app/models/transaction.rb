@@ -1,6 +1,7 @@
 class Transaction < ActiveRecord::Base
   attr_accessible :amount, :batch_id, :user_id
   belongs_to :batch
+  belongs_to :user
 
   #transaction must remove some amount of the batch
   validates :amount, numericality: { greater_than: 0 }
@@ -9,7 +10,7 @@ class Transaction < ActiveRecord::Base
   before_save do |transaction|
     transaction.amount = amount.truncate(1)
   end
-  #after_save :update_batch_amount
+  after_save :update_batch_amount
 
   protected
     def amount_not_larger_than_current_batch_amount
