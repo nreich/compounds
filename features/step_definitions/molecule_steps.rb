@@ -24,7 +24,7 @@ Given /^My molecule has (\d+) batches$/ do |number|
 end
 
 Given /^My molecule has 1 batch$/ do
-    FactoryGirl.create(:batch, molecule: @molecule)
+    @batch = FactoryGirl.create(:batch, molecule: @molecule)
 end
 
 ### When ###

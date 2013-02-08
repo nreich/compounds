@@ -10,5 +10,6 @@ FactoryGirl.define do
     salt_id 1
     formula_weight "9.998"
     association :molecule
+    association :salt
   end
 end

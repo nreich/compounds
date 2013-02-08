@@ -5,5 +5,6 @@ FactoryGirl.define do
     user_id 1
     batch_id 1
     amount "1.9"
+    association :batch
   end
 end
