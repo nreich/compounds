@@ -9,7 +9,7 @@ Compounds::Application.routes.draw do
   resources :batches
   resources :molecules
   resources :users
-  resources :transactions
+  resources :transactions, only: [:index, :show, :create]
 
   root to: "users#index"
 
