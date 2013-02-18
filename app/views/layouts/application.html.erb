@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Compounds</title>
+  <title><%= render "layouts/title" %></title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= controller.controller_name %>">
+  <div id="navigation">
+    <%= render 'layouts/navigation' %>
+  </div>
+  <div id="banner">
+    <h1 class="left">Compound Manager <% if @title %><%= " - " + @title %><% end %></h1>
+  </div>
   <%= render 'layouts/messages' %>
-  <%= render 'layouts/navigation' %>
   <%= yield %>
 
 </body>

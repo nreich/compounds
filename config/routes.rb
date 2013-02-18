@@ -1,4 +1,14 @@
 Compounds::Application.routes.draw do
+  authenticated :user do
+    root to: 'pages#home'
+  end
+  devise_scope :user do
+    root to: 'devise/sessions#new'
+  end
+  #root to: 'users#index'
+
+  get "pages/home"
+
   get "users/index"
 
   get "users/show"
@@ -11,7 +21,6 @@ Compounds::Application.routes.draw do
   resources :users
   resources :transactions, only: [:index, :show, :create]
 
-  root to: "users#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

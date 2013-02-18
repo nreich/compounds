@@ -3,6 +3,11 @@ Feature: Sign in
   As a user
   I want to be able to sign in
 
+    Scenario: User is not signed up and visits home page
+      Given I do not exist as a user
+      When I visit root
+      Then I should be redirected to the sign in page
+
     Scenario: User is not signed up
       Given I do not exist as a user
       When I sign in with valid credentials

@@ -160,6 +160,10 @@ When /^I visit the user index page$/ do
 end
 
 ### Then ###
+Then /^I should be redirected to the sign in page$/ do
+  page.should have_content "Sign in"
+end
+
 Then /^I should see a successful sign up message$/ do
   page.should have_content "Welcome! You have signed up successfully."
 end
@@ -247,8 +251,6 @@ Then /^I should see a table of their transactions$/ do
       text: transaction.amount.to_s
     page.should have_css "tr#transaction_#{transaction.id}",
       text: transaction.created_at.to_s
-
-
   end
 
 end
