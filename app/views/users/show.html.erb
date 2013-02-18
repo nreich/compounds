@@ -1,2 +1,24 @@
-<h1><%= @user.name %></h1>
-<p>Email address: <%= @user.email %> </p>
+<h2 id="user_name"><%= @user.name %></h2>
+<p id="user_email">Email address: <%= @user.email %> </p>
+<h3 id="user_transaction_table">Transactions</h3>
+<table id="transactions">
+  <thead>
+    <tr>
+      <th id="transaction_molecule">Molecule</th>
+      <th id="transaction_batch">Batch Number</th>
+      <th id="transaction_amount">Amount</th>
+      <th id="transaction_time">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @user.transactions.each do |transaction| %>
+    <tr id="transaction_<%= transaction.id %>">
+      <td><%= transaction.batch.molecule.name %></td>
+      <td><%= transaction.batch.lot_number %></td>
+      <td><%= transaction.amount %></td>
+      <td><%= transaction.created_at %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+

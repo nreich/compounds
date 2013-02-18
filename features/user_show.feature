@@ -5,6 +5,12 @@ Feature: Show User
 
   Scenario: 
     Given a user exists
-    When I visit their show page
+    When I visit that user's show page
     Then I should see their name
     And I should see their email address
+
+  Scenario:
+    Given a user exists
+    And the user has 3 transactions
+    When I visit that user's show page
+    Then I should see a table of their transactions

@@ -1,15 +1,21 @@
 ### Support ###
-def create_molecule(name)
-    @molecule = FactoryGirl.create(:molecule, name: name)
+def create_molecule
+    @molecule = FactoryGirl.create(:molecule)
 end
+
+def create_molecules(n)
+  @molecules = []
+  n.times do
+    molecule = FactoryGirl.create(:molecule)
+    @molecules << molecule
+  end
+end
+
 
 ### Given ###
 Given /^I have (\d+) molecules$/ do |number|
-    @molecules = []
-    number.to_i.times do
-        molecule = FactoryGirl.create(:molecule)
-        @molecules << molecule
-    end
+  n = number.to_i
+  create_molecules(n)  
 end
 
 Given /^I have a molecule$/ do
@@ -17,14 +23,12 @@ Given /^I have a molecule$/ do
 end
 
 Given /^My molecule has (\d+) batches$/ do |number|
-    number.to_i.times do
-        batch = FactoryGirl.create(:batch, molecule: @molecule)
-        @molecule.batches << batch
-    end
+ n = number.to_i
+ create_batches_for_molecule(@molecule, n)
 end
 
 Given /^My molecule has 1 batch$/ do
-    @batch = FactoryGirl.create(:batch, molecule: @molecule)
+  create_batch_for_molecule(@molecule)
 end
 
 ### When ###

@@ -71,6 +71,11 @@ Given /^there are (\d+) users$/ do |n|
   end
 end
 
+Given /^the user has (\d)+ transactions/ do |number|
+  n = number.to_i
+  create_transactions_for_user(@user, n)
+end
+
 ### When ###
 When /^I sign up with valid user data$/ do
   create_visitor
@@ -146,7 +151,7 @@ When /^I edit my account details$/ do
   click_button "Update"
 end
 
-When /^I visit their show page$/ do
+When /^I visit that user's show page$/ do
   visit "/users/#{@user.id}"
 end
 
@@ -215,15 +220,35 @@ Then /^I should see an account edited message$/ do
 end
 
 Then /^I should see their name$/ do
-  page.should have_content @user.name
+  page.should have_css "h2#user_name", text: @user.name
 end
 
 Then /^I should see their email address$/ do
-  page.should have_content @user.email
+  page.should have_css "p#user_email", text: @user.email
 end
 
 Then /^I should see the name of each user$/ do
   @users.each do |user|
     page.should have_content user.name
   end
+end
+
+
+Then /^I should see a table of their transactions$/ do
+  page.should have_css "table#transactions"
+  transactions = @user.transactions
+  page.should have_css "tr", count: transactions.count + 1 
+  transactions.each do |transaction|
+    page.should have_css "tr#transaction_#{transaction.id}",
+      text: transaction.batch.molecule.name
+    page.should have_css "tr#transaction_#{transaction.id}",
+      text: transaction.batch.lot_number.to_s
+    page.should have_css "tr#transaction_#{transaction.id}",
+      text: transaction.amount.to_s
+    page.should have_css "tr#transaction_#{transaction.id}",
+      text: transaction.created_at.to_s
+
+
+  end
+
 end

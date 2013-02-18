@@ -1,7 +1,23 @@
+### Utility Methods ###
+def create_transactions_for_user(user, n)
+  n.times do
+    create_molecule
+    create_batch_for_molecule(@molecule)
+    create_transaction
+  end
+end
+
+def create_transaction
+  @transaction = FactoryGirl.create(:transaction, user: @user,
+                                                  batch: @batch)
+end
+
+
 ### Given ###
 Given /^My batch has a transaction$/ do
   create_user
-  @transaction = FactoryGirl.create(:transaction, user: @user, batch: @batch)
+  @batch = @molecule.batches.first
+  create_transaction
 end
 
 ### When ###

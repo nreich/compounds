@@ -1,3 +1,15 @@
+### Utility Methods ###
+def create_batch_for_molecule(molecule) 
+  @batch = FactoryGirl.create(:batch, molecule: @molecule)
+  @molecule.batches << @batch
+end
+
+def create_batches_for_molecule(molecule, n)
+  n.times do
+    create_batch_for_molecule(molecule)
+  end
+end
+
 When /^I visit the show page for the batch$/ do
     @batch = @molecule.batches.first
     visit url_for(@batch)
