@@ -27,6 +27,9 @@ gem 'jquery-rails'
 
 gem 'rspec-rails', :group => [:development, :test]
 gem 'factory_girl_rails', :group => [:development, :test]
+gem 'pry-rails', group: [:development]
+gem 'pry', group: [:development]
+gem 'pry-doc', group: [:development]
 
 group :test do
   gem 'cucumber-rails', :require => false
