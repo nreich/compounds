@@ -31,7 +31,13 @@ Given /^My molecule has 1 batch$/ do
   create_batch_for_molecule(@molecule)
 end
 
-### When ###
+Given /^Each of my molecules has (\d+) batches$/ do |number|
+  n = number.to_i
+  molecules = Molecule.find(:all)
+  molecules.each { |molecule| create_batches_for_molecule(molecule, n) }
+end
+    
+    ### When ###
 When /^I visit the molecule list$/ do
     visit molecules_path
 end

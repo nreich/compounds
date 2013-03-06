@@ -10,8 +10,7 @@ Scenario: Batch Page
     Then I should see its' lot number
 
 Scenario: Batch Index
-    Given I have a molecule
-        And My molecule has 2 batches
+    Given I have 3 molecules
+        And Each of my molecules has 2 batches
     When I visit the batch index page
-    Then I should see the molecule name
-        And I should see the lot numbers
+    Then I should see the information for each batch

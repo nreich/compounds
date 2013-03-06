@@ -1,7 +1,7 @@
 ### Utility Methods ###
 def create_batch_for_molecule(molecule) 
-  @batch = FactoryGirl.create(:batch, molecule: @molecule)
-  @molecule.batches << @batch
+  @batch = FactoryGirl.create(:batch, molecule: molecule)
+  molecule.batches << @batch
 end
 
 def create_batches_for_molecule(molecule, n)
@@ -23,9 +23,28 @@ Then /^I should see its' lot number$/ do
     page.should have_content @batch.lot_number
 end
 
-Then /^I should see the lot numbers$/ do
-    @molecule.batches.each do |batch|
-        page.should have_content batch.lot_number
-    end
+Then /^I should see the information for each batch$/ do
+  page.should have_css "table#batches"
+  batches = Batch.find(:all)
+  page.should have_css "tr", count: batches.count + 1
+  batches.each do |batch|
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.id.to_s
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.molecule.name
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.lot_number.to_s
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.barcode
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.date.to_s
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.amount.to_s
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.initial_amount.to_s
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.salt.name
+    page.should have_css "tr#batch_#{batch.id}",
+      text: batch.formula_weight.to_s
+  end
 end
-
