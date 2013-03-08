@@ -1,6 +1,6 @@
 <tr id="batch_<%= batch.id %>">
-  <td><%= batch.id %></td>
-  <td><%= batch.molecule.name %></td>
+  <td><%= link_to batch.id, batch %></td>
+  <td><%= link_to batch.molecule.name, batch.molecule %></td>
   <td><%= batch.lot_number %></td>
   <td><%= batch.barcode %></td>
   <td><%= batch.date %></td>

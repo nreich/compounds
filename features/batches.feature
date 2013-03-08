@@ -14,3 +14,11 @@ Scenario: Batch Index
         And Each of my molecules has 2 batches
     When I visit the batch index page
     Then I should see the information for each batch
+
+Scenario: Batch Index Links
+    Given I have a molecule
+      And My molecule has 1 batch
+    When I visit the batch index page
+    Then I should see a link to the batch show page
+      And I should see a link to the molecule show page
+
