@@ -29,6 +29,12 @@ describe Batch do
         @batch.should_not be_valid
     end
 
+    it "should have initial and current amount the same if current amount not specified" do
+      @batch = @molecule.batches.new(@attr.merge(amount: nil))
+      @batch.save
+      @batch.amount.should eq(@batch.initial_amount)
+    end
+
     describe "molecule relationship" do
 
         it "should have a relationship with a molecule" do
