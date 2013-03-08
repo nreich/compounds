@@ -58,3 +58,14 @@ Then /^I should see a link to the molecule show page$/ do
   target_page_path = molecule_path @molecule
   page.should have_link @molecule.name, href:target_page_path
 end
+
+Then /^I should see the information for the batch$/ do
+  page.should have_selector 'p', text: @batch.lot_number.to_s
+  page.should have_selector 'p', text: @batch.date.to_s
+  page.should have_selector 'p', text: @batch.amount.to_s
+  page.should have_selector 'p', text: @batch.barcode
+  page.should have_selector 'p', text: @batch.initial_amount.to_s
+  page.should have_selector 'p', text: @batch.salt.name
+  page.should have_selector 'p', text: @batch.molecule.name
+  page.should have_selector 'p', text: @batch.formula_weight.to_s
+end
