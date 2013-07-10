@@ -24,7 +24,6 @@ body {
   }
 }
 
-
 #navigation {
   float: right;
 
@@ -35,4 +34,19 @@ body {
         padding: 0.2 em 0;
       }
     }
+}
+
+table {
+  border: 2px solid #000000;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: center;
+  border: 1px solid #000000;
+  padding: 0.2em 0.5em;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: silver;
 }
