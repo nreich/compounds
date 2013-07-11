@@ -1,11 +1,11 @@
 Feature: Sign out
   To protect my account from unauthorized access
-  A signed in user
-  Should be able to sign out
+  As currently signed in user
+  I should be able to sign out
 
-    Scenario: User signs out
+    Scenario: I sign out of the website
       Given: I am logged in
       When I sign out
-      Then I should see a signed out message
+      Then I should be redirected to the sign in page
       When I return to the site
       Then I should be signed out
