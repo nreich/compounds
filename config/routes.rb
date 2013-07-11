@@ -12,16 +12,18 @@ Compounds::Application.routes.draw do
   get "users/index"
 
   get "users/show"
-
-  devise_for :users, controllers: { registrations: "registrations" } do
-    post '/users/sign_up' => 'registrations#create', as: :user_registration
+  devise_for :users do
+    #post '/users/sign_up' => 'registrations#create', as: :user_registration
   end
+  #devise_for :users, controllers: { registrations: :registrations } do
+  #  post '/users/sign_up' => 'registrations#create', as: :user_registration
+  #end
 
 
   resources :salts
   resources :batches
   resources :molecules
-  resources :users
+  resources :users, only: [:index, :show]
   resources :transactions, only: [:index, :show, :create]
 
 

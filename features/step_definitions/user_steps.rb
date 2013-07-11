@@ -1,4 +1,11 @@
 ### Utilty Methods ###
+def create_user
+  create_visitor
+  delete_user
+  @user = FactoryGirl.create(:user, email: @visitor[:email],
+                                    password: @visitor[:password])
+end
+
 def create_visitor
   @visitor ||= {name: "John Doe", email: "example@example.com",
     password: "password", password_confirmation: "password" }
@@ -9,8 +16,23 @@ def delete_user
   @user.destroy unless @user.nil?
 end
 
+def edit_account_name(name)
+  @new_name = name
+  click_link "Edit account"
+  fill_in "Name", with: @new_name
+  fill_in "user_current_password", with: @visitor[:password]
+  click_button "Update"
+end
+
 def find_user
   @user ||= User.first conditions: {email: @visitor[:email]}
+end
+
+def sign_in
+  visit '/users/sign_in'
+  fill_in "Email", with: @visitor[:email]
+  fill_in "user_password", with: @visitor[:password]
+  click_button "Sign in"
 end
 
 def sign_up
@@ -26,6 +48,12 @@ end
 ### Given ###
 Given /^I am not logged in$/ do
   visit '/users/sign_out'
+end
+
+Given /^I am logged in$/ do
+  create_visitor
+  create_user
+  sign_in
 end
 
 ### When ###
@@ -44,6 +72,13 @@ When /^I sign up with invalid data$/ do
   click_button "Sign up"
 end
 
+When /^I edit my account details$/ do
+  edit_account_name("newname")
+end
+
+When /^I edit my account but enter invalid information$/ do
+  edit_account_name("")
+end
 
 ### Then ###
 Then /^I should successfully become a user$/ do
@@ -55,21 +90,41 @@ Then /^I should be redirected to the homepage$/ do
 end
 
 Then /^I should see a successful sign up message$/ do
-  page.should have_content "Welcome! You have signed up successfully."
+  expect(page).to have_css '#flash_notice', 
+    text: "Welcome! You have signed up successfully."
 end
   
 Then /^I should not become a user$/ do
   expect(User.first(conditions: {email: @visitor[:email]})).to be_false
 end
 
-Then /^I should still be on the sign up page$/ do
-  expect(current_path).to eq("/users/sign_up")
+Then /^I should see a message about why I failed to sign up$/ do
+  expect(page).to have_css '#error_explanation', text: "Name can't be blank"
+  expect(page).to have_css '#error_explanation', text: "Email can't be blank"
+  expect(page).to have_css '#error_explanation', text: "Password can't be blank"
 end
 
-Then /^I should see a message about why I failed to sign up$/ do
-  expect(page).to have_content "Name can't be blank"
-  expect(page).to have_content "Email can't be blank"
-  expect(page).to have_content "Password can't be blank"
+Then /^I should see an account edited message$/ do
+  expect(page).to have_css '#flash_notice',
+    text: 'You updated your account successfully'
+end
+
+Then /^my account details should have changed$/ do
+  edited_user = User.first conditions: {email: @visitor[:email]}
+  expect(edited_user.name).to eq(@new_name)
+end
+
+Then /^I should see a message about what I entered wrong$/ do
+  expect(page).to have_css '#error_explanation', text: "Name can't be blank"
+end
+
+Then /^I should still see the account editing form$/ do
+  expect(page).to have_css 'form#edit_user'
+end
+
+Then /^my account details should not have changed$/ do
+  failed_to_edit_user = User.first conditions: {email: @visitor[:email]}
+  expect(failed_to_edit_user.name).to eq(@visitor[:name])
 end
 
 #### Utility Methods ###
