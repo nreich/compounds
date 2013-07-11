@@ -30,12 +30,12 @@ gem 'factory_girl_rails', :group => [:development, :test]
 gem 'pry-rails', group: [:development]
 gem 'pry', group: [:development]
 gem 'pry-doc', group: [:development]
+gem 'database_cleaner', group: [:development, :test]
 
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'capybara', :group => :test
   # database_cleaner is not required, but highly recommended
-  gem 'database_cleaner'
 end
 
 

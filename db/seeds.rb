@@ -5,28 +5,35 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+DatabaseCleaner.clean_with(:truncation,
+                           only: ['users', 'molecules', 'salts', 'batches', 'transactions']
+                          )
+
 User.delete_all
-10.times do |n|
+(1..9).each do |n|
   User.create!(name: "user#{n}", email: "user#{n}@example.com",
                password: "password", password_confirmation: "password")
 end
 
 Molecule.delete_all
-10.times do |n|
+(1..10).each do |n|
   Molecule.create!(name: "molecule #{n}", molecular_weight: 120 + 10 * n)
 end
 
 Salt.delete_all
-10.times do |n|
+(1..10).each do |n|
   Salt.create!(name: "salt #{n}")
 end
 
 Batch.delete_all
-10.times do |n|
-  n.times do
-    Batch.create!(lot_number: n, date: DateTime.now, initial_amount: 10 * n,
-                  barcode: "1234#{n}", salt_id: n, formula_weight: 150 + 10 * n,
-                  molecule_id: n)
+(0..9).each do |n|
+  (0..9).each do |m|
+    Batch.create!(lot_number: n  * 10 + m + 1, date: DateTime.now,
+                  initial_amount: 10 * (n + 1),
+                  barcode: "1234#{n}#{m}", salt_id: (n % 10) + 1,
+                  formula_weight: 150 + 10 * n,
+                  molecule_id: n + 1 )
   end
 end
 
