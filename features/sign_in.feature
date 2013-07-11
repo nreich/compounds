@@ -1,37 +1,25 @@
 Feature: Sign in
   In order to access protected sections of this site
-  As a user
-  I want to be able to sign in
+  As an existing user
+  I want to to sign in
 
-    Scenario: User is not signed up and visits home page
-      Given I do not exist as a user
-      When I visit root
+  Background:
+    Given I am not logged in
+
+    Scenario: I visit the website before signing in
+      When I visit the homepage
       Then I should be redirected to the sign in page
 
-    Scenario: User is not signed up
-      Given I do not exist as a user
-      When I sign in with valid credentials
-      Then I see an invalid login message
-        And I should be signed out
-
-    Scenario: User signs in successfully
-      Given I exist as a user
-        And I am not logged in
+    Scenario: I log in with valid credentials
+      Given I am already a user
       When I sign in with valid credentials
       Then I see a successful sign in message
+      And I am redirected to the homepage
       When I return to the site
       Then I should be signed in
 
-    Scenario: User enters wrong email
-      Given I exist as a user
-      And I am not logged in
-      When I sign in with a wrong email
-      Then I see an invalid login message
-      And I should be signed out
+    Scenario: I try to log in with invalid credentials
+      When I try to sign in with an invalid email and password
+      Then I should see an invalid login message
+      And I should still be on the sign in page
 
-    Scenario: User enters wrong password
-      Given I exist as a user
-      And I am not logged in
-      When I sign in with a wrong password
-      Then I see an invalid login message
-      And I should be signed out

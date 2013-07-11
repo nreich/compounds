@@ -28,6 +28,11 @@ def find_user
   @user ||= User.first conditions: {email: @visitor[:email]}
 end
 
+def on_sign_in_page?
+  expect(page).to have_css 'form#new_user'
+  expect(page).to have_css 'h2', text: 'Sign in'
+end
+
 def sign_in
   visit '/users/sign_in'
   fill_in "Email", with: @visitor[:email]
@@ -56,6 +61,11 @@ Given /^I am logged in$/ do
   sign_in
 end
 
+Given /^I am already a user$/ do
+  create_visitor
+  create_user
+end
+
 ### When ###
 When /^I sign up with valid user data$/ do
   create_visitor
@@ -78,6 +88,25 @@ end
 
 When /^I edit my account but enter invalid information$/ do
   edit_account_name("")
+end
+
+When /^I visit the homepage$/ do
+  visit "/"
+end
+
+When /^I sign in with valid credentials$/ do
+  sign_in
+end
+
+When /^I return to the site$/ do
+  visit '/'
+end
+
+When /^I try to sign in with an invalid email and password$/ do
+  visit '/users/sign_in'
+  fill_in "Email", with: "invalid_email@example.com" 
+  fill_in "user_password", with: "badpassword"
+  click_button "Sign in"
 end
 
 ### Then ###
@@ -125,6 +154,33 @@ end
 Then /^my account details should not have changed$/ do
   failed_to_edit_user = User.first conditions: {email: @visitor[:email]}
   expect(failed_to_edit_user.name).to eq(@visitor[:name])
+end
+
+Then /^I should be redirected to the sign in page$/ do
+  on_sign_in_page?
+end
+
+Then /^I see a successful sign in message$/ do
+  expect(page).to have_css '#flash_notice', text: "Signed in successfully"
+end
+
+Then /^I am redirected to the homepage$/ do
+  expect(current_path).to eq("/")
+end
+
+Then /^I should be signed in$/ do
+  expect(page).to have_link "Logout", href: "/users/sign_out"
+  expect(page).to have_no_link "Login", href: "/users/sign_in"
+  expect(page).to have_no_link "Sign up", href: "users/sign_up"
+end
+
+Then /^I should see an invalid login message$/ do
+  expect(page).to have_css '#flash_alert',
+    text: "Invalid email or password."
+end
+
+Then /^I should still be on the sign in page$/ do
+  on_sign_in_page?
 end
 
 #### Utility Methods ###
