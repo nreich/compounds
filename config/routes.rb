@@ -13,7 +13,10 @@ Compounds::Application.routes.draw do
 
   get "users/show"
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" } do
+    post '/users/sign_up' => 'registrations#create', as: :user_registration
+  end
+
 
   resources :salts
   resources :batches
