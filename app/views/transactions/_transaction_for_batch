@@ -1,0 +1,5 @@
+<tr id="transaction_<%= transaction.id %>">
+<td><%= transaction.amount %></td>
+<td><%= transaction.user.name %></td>
+<td><%= transaction.created_at %></td>
+</tr>

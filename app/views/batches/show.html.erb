@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Number:</b>
+  <b>Lot Number:</b>
   <%= @batch.lot_number %>
 </p>
 
@@ -40,6 +40,8 @@
   <%= @batch.molecule.name %>
 </p>
 
+<%= render partial: 'transactions/table_for_batch',
+  locals: { transactions: @batch.transactions } %>
 
 <%= link_to 'Edit', edit_batch_path(@batch) %> |
 <%= link_to 'Back', batches_path %>
