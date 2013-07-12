@@ -13,6 +13,14 @@ def remove_all_transactions(batch)
   end
 end
 
+def remove_user_transactions(user)
+  transactions = Transaction.where "user_id = ?", user.id
+  unless transactions.size == 0
+    transactions.each { |transaction| transaction.destroy }
+  end
+end
+
+
 #### Utility Methods ###
 #def create_transactions_for_user(user, n)
 #  n.times do

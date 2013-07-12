@@ -1,0 +1,21 @@
+<% if transactions.empty? %>
+  <p>User has not yet made any transactions<p>
+<% else %>
+  <table id="transactions">
+    <thead>
+      <tr>
+        <th id="transaction_id">ID</th>
+        <th id="transaction_molecule">Molecule</th>
+        <th id="transaction_batch">Lot Number</th>
+        <th id="transaction_amount">Amount (mg)</th>
+        <th id="transaction_time">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% transactions.each do |transaction| %>
+        <%= render partial: 'transactions/user_transaction',
+          locals: { transaction: transaction } %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

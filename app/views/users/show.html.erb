@@ -1,5 +1,5 @@
 <h2 id="user_name"><%= @user.name %></h2>
 <p id="user_email">Email address: <%= @user.email %> </p>
 <h3 id="user_transaction_table">Transactions:</h3>
-<%= render partial: "transactions/table",
+<%= render partial: "transactions/user_transactions_table",
            locals: { transactions: @user.transactions } %>

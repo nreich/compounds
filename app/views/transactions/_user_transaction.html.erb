@@ -1,0 +1,7 @@
+<tr>
+<td><%= link_to transaction.id, transaction %></td>
+<td><%= link_to transaction.batch.molecule.name, transaction.batch.molecule %></td>
+<td><%= link_to transaction.batch.lot_number, transaction.batch %></td>
+<td><%= transaction.amount %></td>
+<td><%= transaction.created_at %></td>
+</tr>

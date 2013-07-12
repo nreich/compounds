@@ -66,6 +66,18 @@ Given /^I am already a user$/ do
   create_user
 end
 
+Given /^there is another user$/ do
+  @other_user = FactoryGirl.create :user
+end
+
+Given /^another user has any transactions$/ do
+  add_transaction nil, @other_user
+end 
+
+Given /^another user has no transactions$/ do
+  remove_user_transactions @other_user
+end
+
 ### When ###
 When /^I sign up with valid user data$/ do
   create_visitor
@@ -111,6 +123,10 @@ end
 
 When /^I sign out$/ do
   visit '/users/sign_out'
+end
+
+When /^I go to their user page$/ do
+  visit user_path(@other_user)
 end
 
 ### Then ###
@@ -190,4 +206,16 @@ end
 Then /^I should be signed out$/ do
   visit '/'
   on_sign_in_page?
+end
+
+Then /^I see a table with their transactions$/ do
+  expect(page).to have_css "table#transactions"
+end
+
+Then /^I do not see a table for transactions$/ do
+  expect(page).to have_no_css "table#transactions"
+end
+
+Then /^I see a note that they have not made any transactions$/ do
+  expect(page).to have_css "p", text: "User has not yet made any transactions"
 end
