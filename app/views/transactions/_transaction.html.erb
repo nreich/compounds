@@ -1,6 +1,8 @@
 <tr id="transaction_<%= transaction.id %>">
-<td><%= transaction.batch.molecule.name %></td>
-<td><%= transaction.batch.lot_number %></td>
+<td><%= link_to transaction.id, transaction %></td>
+<td><%= link_to transaction.batch.molecule.name, transaction.batch.molecule %></td>
+<td><%= link_to transaction.batch.lot_number, transaction.batch %></td>
 <td><%= transaction.amount %></td>
+<td><%= link_to transaction.user.name, transaction.user %></td>
 <td><%= transaction.created_at %></td>
 </tr>
