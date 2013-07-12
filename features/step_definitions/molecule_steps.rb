@@ -1,3 +1,9 @@
+### Support ###
+def create_molecule
+  @molecule = FactoryGirl.create(:molecule)
+end
+
+
 #### Support ###
 #def create_molecule
 #    @molecule = FactoryGirl.create(:molecule)

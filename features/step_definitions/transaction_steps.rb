@@ -1,3 +1,18 @@
+### Utility Methods ###
+def add_transaction(batch = nil, user = nil)
+batch ||= FactoryGirl.create :batch
+user ||= FactoryGirl.create :user
+@transaction = FactoryGirl.create :transaction, user: user,
+                                  batch: batch
+end
+
+def remove_all_transactions(batch)
+  transactions = Transaction.where "batch_id = ?", batch.id
+  unless transactions.size == 0
+    transactions.each { |transaction| transaction.destroy }
+  end
+end
+
 #### Utility Methods ###
 #def create_transactions_for_user(user, n)
 #  n.times do

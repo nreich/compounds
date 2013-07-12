@@ -1,16 +1,19 @@
-<table>
-  <thead>
-    <tr>
-      <th id="transaction_amount">Amount</th>
-      <th id="transaction_user">User</th>
-      <th id="transaction_time">Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% transactions.each do |transaction| %>
-      <%= render partial: 'transactions/transaction_for_batch',
-        locals: { transaction: transaction } %>
-    <% end %>
-  </tbody>
-</table>
-
+<% if transactions.empty? %>
+  <p>There are not yet any transactions for this batch</p>
+<% else %>
+  <table id="transactions">
+    <thead>
+      <tr>
+        <th id="transaction_amount">Amount</th>
+        <th id="transaction_user">User</th>
+        <th id="transaction_time">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% transactions.each do |transaction| %>
+        <%= render partial: 'transactions/transaction_for_batch',
+          locals: { transaction: transaction } %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
