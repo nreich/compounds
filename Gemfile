@@ -27,11 +27,15 @@ gem 'jquery-rails'
 
 gem 'rspec-rails', :group => [:development, :test]
 gem 'factory_girl_rails', :group => [:development, :test]
-gem 'pry-rails', group: [:development]
-gem 'pry', group: [:development]
-gem 'pry-doc', group: [:development]
 gem 'database_cleaner', group: [:development, :test]
-
+group :development do
+  gem 'pry-rails', group: [:development]
+  gem 'pry', group: [:development]
+  gem 'pry-doc', group: [:development]
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+end
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'capybara', :group => :test
