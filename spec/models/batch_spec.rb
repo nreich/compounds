@@ -1,18 +1,62 @@
 require 'spec_helper'
 
 describe Batch do
-    before :each do
-        @molecule = FactoryGirl.create :molecule
-        @attr = { lot_number: 1,
-                  date: "2012-12-04",
-                  amount: 10.2,
-                  barcode: "barcode_text",
-                  initial_amount: 25.1,
-                  salt_id: 1,
-                  formula_weight: "256.123",
-                  molecule_id: 1
-                }
+  subject(:batch) { FactoryGirl.create :batch }
+  let(:molecule) { FactoryGirl.create :molecule }
+  before :each do
+    @molecule = FactoryGirl.create :molecule
+    @attr = { lot_number: 1,
+              date: "2012-12-04",
+              amount: 10.2,
+              barcode: "barcode_text",
+              initial_amount: 25.1,
+              salt_id: 1,
+              formula_weight: "256.123",
+              molecule_id: 1
+            }
+  end
+
+  it { should respond_to :lot_number }
+  it { should respond_to :date }
+  it { should respond_to :amount }
+  it { should respond_to :initial_amount }
+  it { should respond_to :barcode }
+  it { should respond_to :formula_weight }
+  it { should respond_to :salt }
+  it { should respond_to :molecule }
+
+  describe 'new batch' do
+    let(:attr) { Hash[lot_number: 1, date: "2012-12-04", amount: 10.2,
+      barcode: "barcode_text", initial_amount: 25.1, salt_id: 1,
+      formula_weight: "256.123", molecule_id: 1] }
+
+    context 'with valid attributes' do
+      it 'should be valid' do
+        new_batch = molecule.batches.new(attr)
+        expect(new_batch).to be_valid
+      end
     end
+    context 'when a lot number is not given' do
+      it 'should set lot number one more than highest lot numbered batch of that molecule' do
+        previous_batch = FactoryGirl.create :batch, molecule: molecule
+        previous_lot_number = previous_batch.lot_number
+        attr.delete(:lot_number)
+        new_batch = molecule.batches.create(attr)
+        expect(new_batch.lot_number).to eq(previous_lot_number + 1)
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'should not be valid if lot_number is not an integer' do
+        new_batch = molecule.batches.new(attr.merge(lot_number: 1.5))
+        expect(new_batch).to_not be_valid
+      end
+      it 'should not be valid if date is not properly formatted' do
+        new_batch = molecule.batches.new(attr.merge(date: "5-6-75"))
+        expect(new_batch).to_not be_valid
+      end
+    end      
+  end
 
     it "should be valid given valid attributes" do
         @batch = @molecule.batches.new(@attr)
@@ -51,6 +95,7 @@ describe Batch do
 
     describe "assosciations" do
 
+
         it "should have a relationship with a salt" do
             @batch = @molecule.batches.new(@attr)
             @batch.should respond_to :salt
@@ -72,7 +117,6 @@ describe Batch do
           @transaction = @batch.transactions.new(amount: 1)
           @batch.transactions.first.should equal(@transaction)
         end
-      
-
     end
+
 end
