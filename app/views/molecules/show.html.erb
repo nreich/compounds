@@ -14,12 +14,16 @@
 <table>
   <thead>
       <td>Lot Number</td>
-      <td>amount</td>
+      <td>Amount</td>
+      <td>Salt</td>
+      <td>Number of Salts</td>
   </thead>
   <% @molecule.batches.each do |batch| %>
     <tr>
       <td><%= link_to batch.lot_number, batch %></td>
       <td><%= batch.amount %></td>
+      <td><%= batch.salt.name %></td>
+      <td><%= batch.number_salts %></td>
     </tr>
   <% end %>
 </table>
