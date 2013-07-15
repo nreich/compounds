@@ -39,12 +39,21 @@ describe Batch do
       end
     end
     context 'when a lot number is not given' do
-      it 'should set lot number one more than highest lot numbered batch of that molecule' do
-        previous_batch = FactoryGirl.create :batch, molecule: molecule
-        previous_lot_number = previous_batch.lot_number
-        attr.delete(:lot_number)
-        new_batch = molecule.batches.create(attr)
-        expect(new_batch.lot_number).to eq(previous_lot_number + 1)
+      context 'if this is the first batch of a molecule' do
+        it 'should set the lot number to 1' do
+          attr.delete(:lot_number)
+          first_batch = molecule.batches.create(attr)
+          expect(first_batch.lot_number).to eq(1)
+        end
+      end
+      context 'if this is not the first batch of a molecule' do
+        it 'should set lot number one more than highest lot numbered batch of that molecule' do
+          previous_batch = FactoryGirl.create :batch, molecule: molecule
+          previous_lot_number = previous_batch.lot_number
+          attr.delete(:lot_number)
+          new_batch = molecule.batches.create(attr)
+          expect(new_batch.lot_number).to eq(previous_lot_number + 1)
+        end
       end
     end
     context 'when no salt is *unknown*' do

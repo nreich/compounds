@@ -31,7 +31,11 @@ class Batch < ActiveRecord::Base
       unless self.lot_number
         highest_number = Batch.where(molecule_id: molecule_id).
           maximum('lot_number')
-        self.lot_number = highest_number + 1
+        if highest_number
+          self.lot_number = highest_number + 1
+        else
+          self.lot_number = 1
+        end
       end
     end
 
