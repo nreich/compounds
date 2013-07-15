@@ -12,7 +12,8 @@ describe Batch do
               initial_amount: 25.1,
               salt_id: 1,
               formula_weight: "256.123",
-              molecule_id: 1
+              molecule_id: 1,
+              number_salts: 1
             }
   end
 
@@ -24,11 +25,12 @@ describe Batch do
   it { should respond_to :formula_weight }
   it { should respond_to :salt }
   it { should respond_to :molecule }
+  it { should respond_to :number_salts }
 
   describe 'new batch' do
     let(:attr) { Hash[lot_number: 1, date: "2012-12-04", amount: 10.2,
       barcode: "barcode_text", initial_amount: 25.1, salt_id: 1,
-      formula_weight: "256.123", molecule_id: 1] }
+      formula_weight: "256.123", molecule_id: 1, number_salts: 1] }
 
     context 'with valid attributes' do
       it 'should be valid' do
@@ -45,7 +47,13 @@ describe Batch do
         expect(new_batch.lot_number).to eq(previous_lot_number + 1)
       end
     end
-
+    #context 'when no salt is given' do
+    #  it 'should set salt as unknown' do
+    #    attr.delete(:salt_id)
+    #    unknown_salt_batch = molecule.batches.create(attr)
+    #    expect(unknown_salt_batch.salt.name).to eq("unknown")
+    #  end
+    #end
     context 'with invalid attributes' do
       it 'should not be valid if lot_number is not an integer' do
         new_batch = molecule.batches.new(attr.merge(lot_number: 1.5))
@@ -53,6 +61,10 @@ describe Batch do
       end
       it 'should not be valid if date is not properly formatted' do
         new_batch = molecule.batches.new(attr.merge(date: "5-6-75"))
+        expect(new_batch).to_not be_valid
+      end
+      it 'should not be valid is number of salts not given' do
+        new_batch = molecule.batches.new(attr.merge(number_salts: ""))
         expect(new_batch).to_not be_valid
       end
     end      

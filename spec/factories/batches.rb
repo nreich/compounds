@@ -8,6 +8,7 @@ FactoryGirl.define do
     barcode "barcode"
     initial_amount 1000.5
     salt_id 1
+    number_salts 1
     formula_weight "9.998"
     association :molecule
     association :salt

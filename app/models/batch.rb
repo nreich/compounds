@@ -1,5 +1,5 @@
 class Batch < ActiveRecord::Base
-  attr_accessible :amount, :barcode, :date, :formula_weight, :initial_amount, :molecule_id, :lot_number, :salt_id
+  attr_accessible :amount, :barcode, :date, :formula_weight, :initial_amount, :molecule_id, :lot_number, :salt_id, :number_salts
   belongs_to :molecule
   belongs_to :salt
   has_many :transactions
@@ -9,6 +9,7 @@ class Batch < ActiveRecord::Base
       message: "Must have a batch date of format: dddd-dd-dd"}
   validates :molecule_id, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 0}
   validates :lot_number, presence: true, numericality: {only_integer: true, greater_than: 0}
+  validates :number_salts, presence:true, numericality: {greater_than_or_equal_to: 0}
 
   private
 
