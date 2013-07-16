@@ -2,42 +2,36 @@ require 'spec_helper'
 
 describe UsersController do
 
+  let(:user) { FactoryGirl.create :user }
+
   describe "GET 'index'" do
     before :each do
       @users = []
       3.times do
-        user = FactoryGirl.create(:user)
+        user = FactoryGirl.create :user
         @users << user
       end
     end
 
-    it "should return the :index view" do
+    it "should render the :index view" do
       get :index
-      response.should render_template :index
+      expect(response).to render_template :index
     end
-
-    it "should populate an array of contacts" do
+    it "should populate an array of users" do
       get :index
-      assigns(:users).should eq(@users)
+      expect(assigns :users).to eq(@users)
     end
   end
 
   describe "GET 'show'" do
     
-    before :each do
-      @user = FactoryGirl.create(:user)
-    end
-    
     it "should return the :show view" do
-      get :show, id: @user
-      response.should render_template :show
+      get :show, id: user
+      expect(response).to render_template :show
     end
-    
     it "should assign the requested user to @user" do
-      get :show, id: @user
-      assigns(:user).should eq(@user)
+      get :show, id: user
+      expect(assigns :user).to eq(user)
     end
-
   end
-
 end

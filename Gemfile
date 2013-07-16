@@ -29,9 +29,9 @@ gem 'rspec-rails', :group => [:development, :test]
 gem 'factory_girl_rails', :group => [:development, :test]
 gem 'database_cleaner', group: [:development, :test]
 group :development do
-  gem 'pry-rails', group: [:development]
-  gem 'pry', group: [:development]
-  gem 'pry-doc', group: [:development]
+  gem 'pry-rails'
+  gem 'pry'
+  gem 'pry-doc'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
