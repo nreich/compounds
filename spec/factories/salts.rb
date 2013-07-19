@@ -3,5 +3,6 @@
 FactoryGirl.define do
   factory :salt do
     name "Sulfate"
+    molecular_weight 100
   end
 end

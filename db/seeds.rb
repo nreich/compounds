@@ -23,10 +23,7 @@ end
 
 salts = %w{ unknown none hydrochloric triflouroacetate acetate formate hydrobromic methansulfonic triflourmethansulfonic ascorbate }
 Salt.delete_all
-salts.each { |salt| Salt.create!(name: salt) }
-#(1..10).each do |n|
-#  Salt.create!(name: "salt #{n}")
-#end
+salts.each { |salt| Salt.create!(name: salt, molecular_weight: 100 + rand(1..100)) }
 
 Batch.delete_all
 (0..9).each do |n|
@@ -36,12 +33,6 @@ Batch.delete_all
                   barcode: "1234#{n}#{m}", salt_id: (n % 10) + 1,
                   number_salts: 1, formula_weight: 150 + 10 * n,
                   molecule_id: n + 1 )
-   # Batch.create!(lot_number: n  * 10 + m + 1, date: DateTime.now,
-   #               initial_amount: 10 * (n + 1),
-   #               barcode: "1234#{n}#{m}", salt_id: (n % 10) + 1,
-   #               number_salts: 1, formula_weight: 150 + 10 * n,
-   #               molecule_id: n + 1 )
-
   end
 end
 
