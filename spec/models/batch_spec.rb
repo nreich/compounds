@@ -11,7 +11,6 @@ describe Batch do
               barcode: "barcode_text",
               initial_amount: 25.1,
               salt_id: 3,
-              formula_weight: "256.123",
               molecule_id: 1,
               number_salts: 1
             }
@@ -29,8 +28,9 @@ describe Batch do
 
   describe 'new batch' do
     let(:attr) { Hash[lot_number: 1, date: "2012-12-04", amount: 10.2,
-      barcode: "barcode_text", initial_amount: 25.1, salt_id: 3,
-      formula_weight: "256.123", molecule_id: 1, number_salts: 1] }
+      barcode: "barcode_text", initial_amount: 25.1, salt_id: salt.id,
+       molecule_id: 1, number_salts: 1] }
+    let!(:salt) { FactoryGirl.create(:salt) }
 
     context 'with valid attributes' do
       it 'should be valid' do
@@ -64,6 +64,9 @@ describe Batch do
     end
     context 'when salt of *none* is given' do
       it 'should set number of salts to 0' do
+        salt = FactoryGirl.build(:salt)
+        salt.id = 2
+        salt.save
         no_salt_batch = molecule.batches.create(attr.merge(salt_id: 2))
         expect(no_salt_batch.number_salts).to eq(0)
       end
@@ -77,8 +80,10 @@ describe Batch do
         new_batch = molecule.batches.new(attr.merge(date: "5-6-75"))
         expect(new_batch).to_not be_valid
       end
-      it 'should not be valid if number of salts not given' do
-        new_batch = molecule.batches.new(attr.merge(number_salts: ""))
+      it 'should not be valid if number of salts not given and batch
+          has a salt' do
+        new_batch = molecule.batches.new(
+          attr.merge(salt_id: 5, number_salts: ""))
         expect(new_batch).to_not be_valid
       end
       it 'should not be valid if a salt in not given' do
@@ -86,6 +91,21 @@ describe Batch do
         expect(new_batch).to_not be_valid
       end
     end      
+  end
+
+  describe 'calculate formula weight' do
+    it 'correctly sets the formula weight on batch creation' do
+      expected_fw = batch.molecule.molecular_weight +
+        batch.salt.molecular_weight * batch.number_salts
+      expect(batch.formula_weight).to eq(expected_fw)
+    end
+    it 'correctly changes formula weight on update to batch' do
+      batch.number_salts = 3
+      batch.save
+      expected_fw = batch.molecule.molecular_weight +
+        batch.salt.molecular_weight * batch.number_salts
+      expect(batch.formula_weight).to eq(expected_fw)
+    end
   end
 
     it "should be valid given valid attributes" do
@@ -104,6 +124,9 @@ describe Batch do
     end
 
     it "should have initial and current amount the same if current amount not specified" do
+      salt = Salt.new(name: "a salt", molecular_weight: 100)
+      salt.id = 3
+      salt.save
       @batch = @molecule.batches.new(@attr.merge(amount: nil))
       @batch.save
       @batch.amount.should eq(@batch.initial_amount)
@@ -132,7 +155,8 @@ describe Batch do
         end
 
         it "should have the right salt" do
-            @salt = Salt.create({ name: "trifluoroacetate"})
+            @salt = Salt.create({ name: "trifluoroacetate",
+                                molecular_weight: 100})
             @batch = @molecule.batches.new(@attr.merge(salt_id: @salt.id))
             @batch.salt.name.should == @salt.name
         end

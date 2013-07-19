@@ -1,16 +1,17 @@
 class Batch < ActiveRecord::Base
-  attr_accessible :amount, :barcode, :date, :formula_weight, :initial_amount, :molecule_id, :lot_number, :salt_id, :number_salts
+  attr_accessible :amount, :barcode, :date, :initial_amount, :molecule_id, :lot_number, :salt_id, :number_salts
   belongs_to :molecule
   belongs_to :salt
   has_many :transactions
   before_create :set_amount_on_creation
+  before_save :calculate_fw
   before_validation :set_lot_number, :check_salt
   validates :date, format: {with: /\A\d{4}-\d{2}-\d{2}/,
       message: "Must have a batch date of format: dddd-dd-dd"}
   validates :molecule_id, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 0}
   validates :lot_number, presence: true, numericality: {only_integer: true, greater_than: 0}
   validates :number_salts, presence: true, numericality: {greater_than_or_equal_to: 0}
-  validates :salt_id, presence: true, numericality: { only_integer: true }
+  validates :salt_id, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
   private
 
@@ -37,6 +38,11 @@ class Batch < ActiveRecord::Base
           self.lot_number = 1
         end
       end
+    end
+
+    def calculate_fw
+      self.formula_weight = self.molecule.molecular_weight
+      + self.salt.molecular_weight * self.number_salts
     end
 
 end
