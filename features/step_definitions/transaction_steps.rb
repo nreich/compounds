@@ -20,7 +20,33 @@ def remove_user_transactions(user)
   end
 end
 
+### When ###
+When /^I enter a valid amount$/ do
+  page.fill_in 'Amount', with: (@batch.amount / 2)
+  click_button 'Submit'
+end
 
+When /^I enter an amount larger than that in the batch$/ do
+  page.fill_in 'Amount', with: (@batch.amount * 2)
+end
+
+### Then ###
+Then /^my transaction is created$/ do
+  expect(Transaction.last.user).to eq(@user)
+end
+
+Then /^the amount remaining in the batch is updated$/ do
+  @batch.reload
+  expect(@batch.amount < @batch.initial_amount).to be_true
+end
+
+Then /^I remain on the new transaction page$/ do
+  expect(current_path).to eq(new_transaction_path)
+end
+
+Then /^my transaction is not created$/ do
+  expect(Transaction.last).to be_nil
+end
 #### Utility Methods ###
 #def create_transactions_for_user(user, n)
 #  n.times do

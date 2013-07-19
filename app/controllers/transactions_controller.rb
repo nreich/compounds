@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-
+  
   def index
     @transactions = Transaction.all
   end
@@ -8,10 +8,15 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
   end
 
+  def new
+    @transaction = Transaction.new
+    @batch = Batch.find(params[:batch])
+  end
+
   def create
-    @user = current_user
-    @batch = Batch.find(params[:batch_id])
+    @batch = Batch.find(params[:transaction][:batch_id])
     @transaction = @batch.transactions.build(params[:transaction])
+    @transaction.user = current_user
     if @transaction.save
       flash[:success] = "Transaction successful"
     else

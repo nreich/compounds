@@ -48,6 +48,7 @@
 <h2>Transactions:</h2>
 <%= render partial: 'transactions/table_for_batch',
   locals: { transactions: @batch.transactions } %>
+  <p><%= link_to 'Add transaction', new_transaction_path(batch: @batch.id) %></p>
 
-<%= link_to 'Edit', edit_batch_path(@batch) %> |
+<%= link_to 'Edit', edit_batch_path(@batch) %> 
 <%= link_to 'Back', batches_path %>

@@ -1,0 +1,27 @@
+<h1>New Transaction for:</h1>
+<h3><%= @batch.molecule.name %>, Lot <%= @batch.lot_number %></h3>
+<%= form_tag "/transactions", method: "post" do %>
+  <% if @transaction.errors.any? %>
+    <div id="error_explanation">      
+      <h2><%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction from being completed:</h2>
+
+      <ul>
+        <% @transaction.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label :transaction, :amount, "Amount" %><br />
+    <%= number_field :transaction, :amount %>
+  </div>
+  <div class="hidden_field">
+    <%= hidden_field :transaction, :batch_id, value: @batch.id %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Submit" %>
+  </div>
+<% end %>
+

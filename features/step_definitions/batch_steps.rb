@@ -16,9 +16,17 @@ Given /^there are no transactions for a batch$/ do
   remove_all_transactions(@batch)
 end
 
+Given /^the batch I want exists$/ do
+  create_batch
+end
+
 ### When ###
 When /^I go to the page for a batch$/ do
   visit batch_path @batch
+end
+
+When /^I click the add transaction link$/ do
+  click_link "Add transaction"
 end
 
 ### Then ###
@@ -36,3 +44,6 @@ Then /^I see a note that this batch has no transactions$/ do
     text: 'There are not yet any transactions for this batch'
 end
 
+Then /^I am redirected to the page of the batch$/ do
+  expect(current_path).to eq(batch_path @batch)
+end

@@ -46,24 +46,24 @@ describe TransactionsController do
       @batch = FactoryGirl.create(:batch)
       @user = FactoryGirl.create(:user)
       sign_in @user
-      @attr = { amount: 1.5 }
+      @attr = { amount: 1.5, batch_id: @batch.to_param }
     end
 
     describe "success" do
 
       it "should create a new transaction given valid attributes" do
         lambda do
-          post :create, transaction: @attr, batch_id: @batch.id
+          post :create, transaction: @attr
         end.should change(Transaction, :count).by(1)
       end
 
       it "should redirect to the batch" do
-        post :create, transaction: @attr, batch_id: @batch.id
+        post :create, transaction: @attr
         response.should redirect_to(@batch)
       end
 
       it "should have a flash message of success" do
-        post :create, transaction: @attr, batch_id: @batch.id
+        post :create, transaction: @attr
         flash[:success].should =~ /transaction successful/i
       end
 
@@ -73,20 +73,17 @@ describe TransactionsController do
 
       it "should not create a new transaction given invalid attributes" do
         lambda do
-          post :create, transaction: @attr.merge(amount: 100000),
-                        batch_id: @batch.id
+          post :create, transaction: @attr.merge(amount: 100000)
         end.should_not change(Transaction, :count)
       end
 
       it "should redirect to the batch" do
-        post :create, transaction: @attr.merge(amount: 100000),
-                      batch_id: @batch.id
+        post :create, transaction: @attr.merge(amount: 100000)
         response.should redirect_to(@batch)
       end
 
       it "should have a flash message notifying of failure" do
-        post :create, transaction: @attr.merge(amount: 100000),
-                      batch_id: @batch.id
+        post :create, transaction: @attr.merge(amount: 100000)
         flash[:notice].should =~ /transaction failed/i
       end
 

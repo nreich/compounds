@@ -19,7 +19,7 @@ Compounds::Application.routes.draw do
   resources :batches
   resources :molecules
   resources :users, only: [:index, :show]
-  resources :transactions, only: [:index, :show, :create]
+  resources :transactions, only: [:index, :show, :create, :new]
 
 
   # The priority is based upon order of creation:
