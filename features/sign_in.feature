@@ -10,6 +10,10 @@ Feature: Sign in
       When I visit the homepage
       Then I should be redirected to the sign in page
 
+    Scenario: I try to visit restricted portions of the site before signing in
+      When I try to visit pages that are restricted
+      Then I should be redirected to the sign in page
+
     Scenario: I log in with valid credentials
       Given I am already a user
       When I sign in with valid credentials
