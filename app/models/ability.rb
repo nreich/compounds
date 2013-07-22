@@ -5,6 +5,7 @@ class Ability
     if user.has_role? :admin
       can :manage, Salt
       can :manage, Batch
+      can :manage, Molecule
     else
       can :read, :all
     end

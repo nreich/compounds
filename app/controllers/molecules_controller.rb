@@ -25,6 +25,7 @@ class MoleculesController < ApplicationController
   # GET /molecules/new.json
   def new
     @molecule = Molecule.new
+    authorize! :new, @molecule
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,12 +36,14 @@ class MoleculesController < ApplicationController
   # GET /molecules/1/edit
   def edit
     @molecule = Molecule.find(params[:id])
+    authorize! :edit, @molecule
   end
 
   # POST /molecules
   # POST /molecules.json
   def create
     @molecule = Molecule.new(params[:molecule])
+    authorize! :create, @molecule
 
     respond_to do |format|
       if @molecule.save
@@ -57,6 +60,7 @@ class MoleculesController < ApplicationController
   # PUT /molecules/1.json
   def update
     @molecule = Molecule.find(params[:id])
+    authorize! :update, @molecule
 
     respond_to do |format|
       if @molecule.update_attributes(params[:molecule])
@@ -73,6 +77,7 @@ class MoleculesController < ApplicationController
   # DELETE /molecules/1.json
   def destroy
     @molecule = Molecule.find(params[:id])
+    authorize! :destroy, @molecule
     @molecule.destroy
 
     respond_to do |format|
