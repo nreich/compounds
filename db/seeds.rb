@@ -15,6 +15,7 @@ User.delete_all
   User.create!(name: "user#{n}", email: "user#{n}@example.com",
                password: "password", password_confirmation: "password")
 end
+User.first.add_role :admin
 
 Molecule.delete_all
 (1..10).each do |n|

@@ -11,5 +11,11 @@ class User < ActiveRecord::Base
   attr_accessible :email, :name, :password, :password_confirmation, :remember_me
   validates :name, presence: true, length: { maximum: 50,
             too_long: "%{count} characters is the maximum allowed" }
-  # attr_accessible :title, :body
+  before_create :add_default_role
+
+private
+  def add_default_role
+    self.add_role :user
+  end
+
 end

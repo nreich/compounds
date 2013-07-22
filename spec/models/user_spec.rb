@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe User do
+  subject(:user) { FactoryGirl.create(:user) }
     before :each do
         @attr = {
             email: "user@example.com",
@@ -8,6 +9,20 @@ describe User do
             password: "password",
             password_confirmation: "password"
         }
+    end
+
+    describe 'roles' do
+      context 'when a new user is created' do
+        it 'should have the "user" role by default' do
+          expect(user.has_role? :user).to be_true
+        end
+      end
+      context 'after user creation' do
+        it 'should be possible to add a new role' do
+          user.add_role :admin
+          expect(user.has_role? :admin).to be_true
+        end
+      end
     end
 
     it "should create a new instance given valid attributes" do
