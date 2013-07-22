@@ -1,4 +1,5 @@
 class Batch < ActiveRecord::Base
+  resourcify
   attr_accessible :amount, :barcode, :date, :initial_amount, :molecule_id, :lot_number, :salt_id, :number_salts
   belongs_to :molecule
   belongs_to :salt

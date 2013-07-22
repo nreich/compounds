@@ -25,6 +25,7 @@ class BatchesController < ApplicationController
   # GET /batches/new.json
   def new
     @batch = Batch.new
+    authorize! :new, @batch
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,12 +36,14 @@ class BatchesController < ApplicationController
   # GET /batches/1/edit
   def edit
     @batch = Batch.find(params[:id])
+    authorize! :edit, @batch
   end
 
   # POST /batches
   # POST /batches.json
   def create
     @batch = Batch.new(params[:batch])
+    authorize! :create, @batch
 
     respond_to do |format|
       if @batch.save
@@ -57,6 +60,7 @@ class BatchesController < ApplicationController
   # PUT /batches/1.json
   def update
     @batch = Batch.find(params[:id])
+    authorize! :update, @batch
 
     respond_to do |format|
       if @batch.update_attributes(params[:batch])
@@ -73,6 +77,7 @@ class BatchesController < ApplicationController
   # DELETE /batches/1.json
   def destroy
     @batch = Batch.find(params[:id])
+    authorize! :destroy, @batch
     @batch.destroy
 
     respond_to do |format|

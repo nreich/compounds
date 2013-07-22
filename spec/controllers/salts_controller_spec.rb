@@ -5,10 +5,6 @@ describe SaltsController do
   let(:salt) { FactoryGirl.create :salt }
   let(:salt_params) { FactoryGirl.attributes_for :salt }
   let(:user) { FactoryGirl.create :user }
-  #before :each do
-  #  @user = FactoryGirl.create :user
-  #  sign_in @user
-  #end
 
   context 'for a normal user' do
 
@@ -32,6 +28,13 @@ describe SaltsController do
       it 'assigns the requested salt as @salt' do
         get :show, { id: salt.to_param }
         expect(assigns :salt).to eq(salt)
+      end
+    end
+
+    describe 'GET new' do
+      it 'redirects to home page' do
+        get :new
+        expect(response).to redirect_to root_path
       end
     end
 

@@ -4,6 +4,7 @@ class Ability
   def initialize(user)
     if user.has_role? :admin
       can :manage, Salt
+      can :manage, Batch
     else
       can :read, :all
     end

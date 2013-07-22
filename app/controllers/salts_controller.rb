@@ -25,8 +25,7 @@ class SaltsController < ApplicationController
   # GET /salts/new.json
   def new
     @salt = Salt.new
-    #authorize! :new, @salt,
-    #  message: "You are not authorized to access that page"
+    authorize! :new, @salt
 
     respond_to do |format|
       format.html # new.html.erb
