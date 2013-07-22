@@ -1,4 +1,5 @@
 class Salt < ActiveRecord::Base
+  resourcify
   attr_accessible :name, :molecular_weight
 
   validates :name, :molecular_weight, presence: true

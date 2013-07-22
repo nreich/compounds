@@ -3,9 +3,9 @@ class Ability
 
   def initialize(user)
     if user.has_role? :admin
-      # add abilities beyond user role here
+      can :manage, Salt
     else
-      #can :read, :all
+      can :read, :all
     end
     # Define abilities for the passed in user here. For example:
     #

@@ -25,6 +25,8 @@ class SaltsController < ApplicationController
   # GET /salts/new.json
   def new
     @salt = Salt.new
+    #authorize! :new, @salt,
+    #  message: "You are not authorized to access that page"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,12 +37,14 @@ class SaltsController < ApplicationController
   # GET /salts/1/edit
   def edit
     @salt = Salt.find(params[:id])
+    authorize! :edit, @salt
   end
 
   # POST /salts
   # POST /salts.json
   def create
     @salt = Salt.new(params[:salt])
+    authorize! :create, @salt
 
     respond_to do |format|
       if @salt.save
@@ -57,6 +61,7 @@ class SaltsController < ApplicationController
   # PUT /salts/1.json
   def update
     @salt = Salt.find(params[:id])
+    authorize! :update, @salt
 
     respond_to do |format|
       if @salt.update_attributes(params[:salt])
@@ -73,6 +78,7 @@ class SaltsController < ApplicationController
   # DELETE /salts/1.json
   def destroy
     @salt = Salt.find(params[:id])
+    authorize! :destroy, @salt
     @salt.destroy
 
     respond_to do |format|

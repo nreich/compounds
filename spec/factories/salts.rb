@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :salt do
-    name "Sulfate"
+    sequence(:name) {|n| "salt#{n}" }
     molecular_weight 100
   end
 end
