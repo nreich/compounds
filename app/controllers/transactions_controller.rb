@@ -16,6 +16,7 @@ class TransactionsController < ApplicationController
   def create
     @batch = Batch.find(params[:transaction][:batch_id])
     @transaction = @batch.transactions.build(params[:transaction])
+    authorize! :create, @transaction
     @transaction.user = current_user
     if @transaction.save
       flash[:success] = "Transaction successful"

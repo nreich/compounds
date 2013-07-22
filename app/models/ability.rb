@@ -8,6 +8,7 @@ class Ability
       can :manage, Molecule
     else
       can :read, :all
+      can :create, Transaction
     end
     # Define abilities for the passed in user here. For example:
     #

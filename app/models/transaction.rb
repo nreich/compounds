@@ -1,4 +1,5 @@
 class Transaction < ActiveRecord::Base
+  resourcify
   attr_accessible :amount, :batch_id, :user_id
   belongs_to :batch
   belongs_to :user
