@@ -9,7 +9,7 @@ class Transaction < ActiveRecord::Base
   validate :amount_not_larger_than_current_batch_amount
   
   before_save do |transaction|
-    transaction.amount = amount.truncate(1)
+    transaction.amount = amount.round(1)
   end
   after_save :update_batch_amount
 
