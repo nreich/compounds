@@ -12,6 +12,7 @@ class Transaction < ActiveRecord::Base
     transaction.amount = amount.round(1)
   end
   after_save :update_batch_amount
+  before_update :unwind_transaction_amount
 
   protected
     def amount_not_larger_than_current_batch_amount
@@ -26,5 +27,13 @@ class Transaction < ActiveRecord::Base
       new_batch_amount = batch.amount - amount
       batch.update_attribute('amount', new_batch_amount)
     end
+
+    def unwind_transaction_amount
+      batch = Batch.find(batch_id)
+      old_amount = Transaction.find(id).amount
+      new_batch_amount = batch.amount + old_amount
+      batch.update_attribute('amount', new_batch_amount)
+    end
+
 end
 

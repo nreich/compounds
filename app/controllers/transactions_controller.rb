@@ -27,11 +27,27 @@ class TransactionsController < ApplicationController
   end
 
   def edit
+    @transaction = Transaction.find(params[:id])
+    @batch = Batch.find(@transaction.batch_id)
+    authorize! :edit, @transaction
   end
 
   def update
+    @transaction = Transaction.find(params[:id])
+    original_amount = @transaction.amount
+    @batch = Batch.find(@transaction.batch_id)
+    authorize! :update, @transaction
+
+    if @transaction.update_attributes(params[:transaction])
+      @batch.reload
+      @batch.amount += original_amount
+      @batch.save
+      redirect_to @transaction, notice: 'Transaction was successfully updated'
+    else
+      render action: 'edit'
+    end
   end
 
-  def delete
+  def destroy
   end
 end

@@ -6,6 +6,7 @@ class Ability
       can :manage, Salt
       can :manage, Batch
       can :manage, Molecule
+      can :update, Transaction
     else
       can :read, :all
       can :create, Transaction

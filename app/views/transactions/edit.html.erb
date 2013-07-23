@@ -1,0 +1,27 @@
+<h1>Edit Transaction</h1>
+<%= form_tag "/transactions/#{@transaction.id}", method: "put" do %>
+  <% if @transaction.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction from being edited:</h2>
+      <ul>
+        <%= @transaction.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label :transaction, :amount, "Amount" %><br />
+    <%= number_field :transaction, :amount %>
+  </div>
+  <div class="hidden_field">
+    <%= hidden_field :transaction, :batch_id, value: @batch.id %>
+  </div>
+  <div class="hidden_field">
+    <%= hidden_field :transaction, :id, value: @transaction.id %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Submit" %>
+  </div>
+<% end %>
