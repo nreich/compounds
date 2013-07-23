@@ -25,4 +25,13 @@ class TransactionsController < ApplicationController
     end
     redirect_to @batch
   end
+
+  def edit
+  end
+
+  def update
+  end
+
+  def delete
+  end
 end

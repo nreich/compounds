@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe TransactionsController do
 
+  let(:transaction) { FactoryGirl.create :transaction, batch: batch }
+  let(:transaction_params) { FactoryGirl.attributes_for(:transaction,
+                              batch: batch).merge(batch_id: batch.id) }
+  let(:molecule) { FactoryGirl.create :molecule }
+  let(:batch) { FactoryGirl.create :batch }
   let(:user) { FactoryGirl.create :user }
 
   context 'for a normal user' do
@@ -22,7 +27,6 @@ describe TransactionsController do
         get :index
         response.should render_template :index
       end
-
       it "should populate an array of contacts" do
         get :index
         assigns(:transactions).should eq(@transactions)
@@ -30,74 +34,62 @@ describe TransactionsController do
     end
 
     describe "GET 'show'" do
-
-      before :each do
-        @transaction = FactoryGirl.create(:transaction)
-      end
-
       it "should return the :show view" do
-        get :show, id: @transaction
-        response.should render_template :show
+        get :show, id: transaction
+        expect(response).to render_template :show
       end
-
       it "should assign the requested transaction to @transaction" do
-        get :show, id: @transaction
-        assigns(:transaction).should eq(@transaction)
+        get :show, id: transaction
+        expect(assigns :transaction).to eq(transaction)
       end
-
     end
 
     describe "POST 'create'" do
-
-      before :each do
-        @batch = FactoryGirl.create(:batch)
-        @user = FactoryGirl.create(:user)
-        sign_in @user
-        @attr = { amount: 1.5, batch_id: @batch.to_param }
-      end
-
       describe "success" do
-
         it "should create a new transaction given valid attributes" do
-          lambda do
-            post :create, transaction: @attr
-          end.should change(Transaction, :count).by(1)
+          expect {
+            post :create, transaction: transaction_params
+          }.to change(Transaction, :count).by(1)
         end
-
         it "should redirect to the batch" do
-          post :create, transaction: @attr
-          response.should redirect_to(@batch)
+          post :create, transaction: transaction_params
+          expect(response).to redirect_to(
+            batch_path transaction_params[:batch_id])
         end
-
         it "should have a flash message of success" do
-          post :create, transaction: @attr
+          post :create, transaction: transaction_params
           flash[:success].should =~ /transaction successful/i
         end
-
       end
 
       describe "failure" do
-
         it "should not create a new transaction given invalid attributes" do
-          lambda do
-            post :create, transaction: @attr.merge(amount: 100000)
-          end.should_not change(Transaction, :count)
+          expect {
+            post :create, transaction: transaction_params.merge(amount: 100000)
+          }.to_not change(Transaction, :count)
         end
-
         it "should redirect to the batch" do
-          post :create, transaction: @attr.merge(amount: 100000)
-          response.should redirect_to(@batch)
+          post :create, transaction: transaction_params.merge(amount: 100000)
+          expect(response).to redirect_to(batch)
         end
-
         it "should have a flash message notifying of failure" do
-          post :create, transaction: @attr.merge(amount: 100000)
-          flash[:notice].should =~ /transaction failed/i
+          post :create, transaction: transaction_params.merge(amount: 100000)
+          expect(flash[:notice]).to  match /transaction failed/i
         end
-
       end
-
     end
   end
+
+  context 'for an admin' do
+    before :each do
+      user.add_role :admin
+      sign_in user
+    end
+
+    describe 'GET edit' do
+    end
+  end
+
 
 
 end
