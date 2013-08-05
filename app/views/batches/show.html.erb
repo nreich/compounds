@@ -45,10 +45,15 @@
   <%= @batch.formula_weight %>
 </p>
 
+<% if current_user.has_role(:admin) %>
+  <%= link_to 'Destroy', @batch, method: :delete, data: { confirm: 'Are you sure?' }%>
+  <%= link_to 'Edit', edit_batch_path(@batch) %>
+<% end %>
+
 <h2>Transactions:</h2>
 <%= render partial: 'transactions/table_for_batch',
   locals: { transactions: @batch.transactions } %>
   <p><%= link_to 'Add transaction', new_transaction_path(batch: @batch.id) %></p>
 
-<%= link_to 'Edit', edit_batch_path(@batch) %> 
+<%#= link_to 'Edit', edit_batch_path(@batch) %> 
 <%= link_to 'Back', batches_path %>

@@ -78,6 +78,12 @@ Given /^another user has no transactions$/ do
   remove_user_transactions @other_user
 end
 
+Given /^I am a logged in admin$/ do
+  create_user
+  @user.add_role(:admin)
+  sign_in
+end
+
 ### When ###
 When /^I sign up with valid user data$/ do
   create_visitor
